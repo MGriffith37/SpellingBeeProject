@@ -1,2 +1,2 @@
-(voice_kal_diphone)
-(SayText "Incorrect")
+(voice_akl_nz_jdt_diphone)
+(SayText "I")

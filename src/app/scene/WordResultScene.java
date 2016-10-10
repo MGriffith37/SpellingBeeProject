@@ -35,7 +35,7 @@ public class WordResultScene {
 
         //Label informing the user if the answered correctly or not
         Label label1 = new Label();
-        if (_currentWordState.equals(WordState.MASTERED) || _currentWordState.equals(WordState.FAULTED)) {
+        if (_currentWordState.equals(WordState.MASTERED)) {
             label1.setText("Correct");
             try {
 				Festival.sayWord("Correct");
@@ -53,6 +53,8 @@ public class WordResultScene {
 			}
         }
 
+        label1.setId("captiontext");
+        
         // Button that either says "Next Word", or "Try Again", depending
         // on whether the previous answer was correct or not
         Button actionButton = new Button();
@@ -71,12 +73,8 @@ public class WordResultScene {
             });
 
         } else {
-
-            if (_currentWordState.equals(WordState.INCORRECT)) {
-                actionButton.setText("Try Again");
-            } else {
+        	
                 actionButton.setText("Next Word");
-            }
 
              // Either way, this button will take the user back to the 'Enter Word' Scene
             actionButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -84,9 +82,8 @@ public class WordResultScene {
                 public void handle(ActionEvent event) {
                     // Refresh word state if word is finished (if word was incorrect don't referesh
                     // as need to use it again
-                    if(!_currentWordState.equals(WordState.INCORRECT) ){
                         _quizModel.nextWord();
-                    }
+                    
                     new EnterWordScene().setScene();
                 }
             });
@@ -98,6 +95,9 @@ public class WordResultScene {
         layout.getChildren().addAll(label1, actionButton);
         layout.setAlignment(Pos.CENTER);
 
+        layout.setBackground(AppModel.getBackground());
+        layout.getStylesheets().add("app/scene/myStyle.css");
+        
         return new Scene(layout, AppModel.getWidth(), AppModel.getHeight());
     }
 

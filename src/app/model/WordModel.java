@@ -20,21 +20,12 @@ public class WordModel {
         return _word;
     }
     public void updateWordState(boolean isCorrectAnswer) {
-        switch(_wordState) {
-            case STARTED:
+        
                 if(isCorrectAnswer) {
                     _wordState = WordState.MASTERED;
                 } else {
-                    _wordState = WordState.INCORRECT;
-                }
-                break;
-            case INCORRECT:
-                if(isCorrectAnswer) {
-                    _wordState = WordState.FAULTED;
-                } else {
                     _wordState = WordState.FAILED;
                 }
-                break;
-        }
+            
     }
 }

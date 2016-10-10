@@ -34,12 +34,10 @@ public class QuizFinishedScene {
 
         //Label informing the user if the answered correctly or not
         Label outcomeLabel = new Label();
-        outcomeLabel.setFont(Font.font ("Verdana", 30));
+        outcomeLabel.setId("subheadingtext");
         if(_quizModel.getSuccessfulQuiz()) {
             outcomeLabel.setText("Well Done!");
-        } else if (_quizModel.getIsReview()){
-            outcomeLabel.setText("Finished");
-        } else {
+        }else {
         	outcomeLabel.setText("Hard Luck!");
         }
 
@@ -54,7 +52,7 @@ public class QuizFinishedScene {
 
         // Let user know their score
         Label scoreLabel = new Label("You got " + _quizModel.getNumCorrectWords() +" out of " + _quizModel.getNumWordsInQuiz());
-
+        scoreLabel.setId("captiontext");
         // Button that either says "Next Word", or "Try Again", depending
         // on whether the previous answer was correct or not
         Button levelSelectButton = new Button("Level Select");
@@ -114,6 +112,7 @@ public class QuizFinishedScene {
         	// If unlocked level
         	if(_quizModel.getIsHardestLevel()) {
         		Label levelUnlockedLabel = new Label();
+        		levelUnlockedLabel.setId("captiontext");
         		levelUnlockedLabel.setText("You have unlocked level: "+ AppModel.getLevelsUnlocked());
         		//If highest level change text
         	    if (_quizModel.getLevelSelected() == AppModel.getNumLevels()){
@@ -127,6 +126,9 @@ public class QuizFinishedScene {
         layout.getChildren().addAll(innerLayout, returnBtn);
         layout.setAlignment(Pos.CENTER);
 
+        layout.setBackground(AppModel.getBackground());
+        layout.getStylesheets().add("app/scene/myStyle.css");
+        
         return new Scene(layout, AppModel.getWidth(), AppModel.getHeight());
     }
 

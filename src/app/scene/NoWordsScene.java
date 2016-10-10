@@ -31,6 +31,7 @@ public class NoWordsScene {
         //Components
         Label label = new Label();
         label.setText("There are no words to test in this level");
+        label.setId("captiontext");
         Button closeButton = new Button("OK");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -45,6 +46,7 @@ public class NoWordsScene {
         layout.getChildren().addAll(label, closeButton);
         layout.setAlignment(Pos.CENTER);
         layout.setBackground(AppModel.getBackground());
+        layout.getStylesheets().add("app/scene/myStyle.css");
         //Scene
         return new Scene(layout, 400, 100);
 

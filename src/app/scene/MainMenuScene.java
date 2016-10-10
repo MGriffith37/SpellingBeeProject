@@ -3,6 +3,7 @@ package app.scene;
 import java.io.File;
 
 import app.AppModel;
+import app.model.GameState;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -49,7 +50,7 @@ public class MainMenuScene {
 		quizBtn.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				LevelSelectScene.setIsReview(false);
+				LevelSelectScene.setGameState(GameState.QUIZ);
 				LevelSelectScene.setScene();
 			}
 		});
@@ -61,7 +62,7 @@ public class MainMenuScene {
 		timeBtn.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				LevelSelectScene.setIsReview(true);
+				LevelSelectScene.setGameState(GameState.TIME);
 				LevelSelectScene.setScene();
 			}
 		});
@@ -74,7 +75,7 @@ public class MainMenuScene {
 		oneLifeBtn.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				LevelSelectScene.setIsReview(true);
+				LevelSelectScene.setGameState(GameState.ONELIFE);
 				LevelSelectScene.setScene();
 			}
 		});
@@ -87,7 +88,7 @@ public class MainMenuScene {
 		threeLivesBtn.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				LevelSelectScene.setIsReview(true);
+				LevelSelectScene.setGameState(GameState.THREELIVES);
 				LevelSelectScene.setScene();
 			}
 		});
