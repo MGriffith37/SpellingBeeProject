@@ -97,6 +97,8 @@ public class SettingsScene {
 		layout1.setAlignment(Pos.CENTER);
 		layout1.getChildren().addAll(selectVoiceLbl, defaultBtn, nzBtn, resetBtn, returnBtn);
 
+		layout1.getStylesheets().add("app/scene/myStyle.css");
+		layout1.setBackground(AppModel.getBackground());
 		return(new Scene(layout1, AppModel.getWidth(), AppModel.getHeight()));
 
 	}

@@ -58,6 +58,7 @@ public class StatisticsScene {
         
         
         root.getChildren().addAll(borderPane, returnBtn);
+        root.setBackground(AppModel.getBackground());
         return scene;
 	}
 	

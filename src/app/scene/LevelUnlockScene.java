@@ -40,6 +40,7 @@ public class LevelUnlockScene {
 		layout1.setAlignment(Pos.CENTER);
 		layout1.getChildren().addAll(confirmLbl, okBtn);
 
+		layout1.setBackground(AppModel.getBackground());
 		return(new Scene(layout1, AppModel.getWidth(), AppModel.getHeight()));
 	}
 	

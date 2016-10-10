@@ -3,12 +3,14 @@ package app.scene;
 import app.AppModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class LevelSelectScene {
@@ -28,26 +30,26 @@ public class LevelSelectScene {
 		}else{
 			titleLbl.setText("New Quiz");
 		}
-		titleLbl.setFont(Font.font ("Verdana", 30));
+		titleLbl.setId("headingtext");
 
 		//Details instructions for user
-		Label promptLbl = new Label("Please select the level of the test words");
-
+		Label promptLbl = new Label("What level do you want to test on?");
+		promptLbl.setId("captiontext");
 		//Create overarching layout for this app.scene and centers it
-		VBox root = new VBox(30);
+		VBox root = new VBox(20);
 		root.setAlignment(Pos.CENTER);
 
 		//Layout for the 11 buttons
 		GridPane buttonLayout = new GridPane();
-//		buttonLayout.setPadding(new Insets(10,10,10,10));
-//		buttonLayout.setVgap(8);
-//		buttonLayout.setHgap(10);
+		buttonLayout.setPadding(new Insets(20,20,20,20));
+		buttonLayout.setVgap(15);
+		buttonLayout.setHgap(20);
 		int j = 0;
 		//Generates a level button for each level, one by one
 		for(int i = 1; i <= AppModel.getNumLevels(); i++){
 			//Sets the text of button
 			final Button levelBtn = new Button("Level "+i);
-
+			levelBtn.setAlignment(Pos.CENTER);
 			//Generates event for the current button
 			levelBtn.setOnAction(new EventHandler<ActionEvent>(){
 				@Override
@@ -82,6 +84,10 @@ public class LevelSelectScene {
         
 		//Adds all components to root layout and returns the app.scene containing the layout
 		root.getChildren().addAll(titleLbl, promptLbl,buttonLayout, returnBtn);
+		root.setBackground(AppModel.getBackground());
+
+		root.getStylesheets().add("app/scene/myStyle.css");
+		
 		return(new Scene(root, AppModel.getWidth(),AppModel.getHeight()));
 	}
 

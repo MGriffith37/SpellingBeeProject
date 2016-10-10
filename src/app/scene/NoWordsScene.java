@@ -1,5 +1,6 @@
 package app.scene;
 
+import app.AppModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -43,7 +44,7 @@ public class NoWordsScene {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, closeButton);
         layout.setAlignment(Pos.CENTER);
-
+        layout.setBackground(AppModel.getBackground());
         //Scene
         return new Scene(layout, 400, 100);
 

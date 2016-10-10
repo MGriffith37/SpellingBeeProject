@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -29,7 +31,8 @@ public class InvalidInputScene {
 
         //Components
         Label label = new Label();
-        label.setText("Please enter valid input. Alphabetical characters only");
+        label.setText("Whoops! Only spell with letters please!");
+        label.setFont(new Font("Verdana", 20));
         Button closeButton = new Button("OK");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -41,11 +44,14 @@ public class InvalidInputScene {
 
         //Layout
         VBox layout = new VBox(10);
+
+        layout.getStylesheets().add("app/scene/myStyle.css");
+        
         layout.getChildren().addAll(label, closeButton);
         layout.setAlignment(Pos.CENTER);
 
         //Scene
-        return new Scene(layout, 400, 100);
+        return new Scene(layout, 400, 100,Color.AQUAMARINE);
 
     }
 

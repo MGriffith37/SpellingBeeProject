@@ -39,15 +39,17 @@ public class EnterWordScene {
             label1.setText("Review Quiz");
         }
         label1.setTranslateY(-100);
-        label1.setFont(Font.font ("Verdana", 30));
+        label1.setId("subheadingtext");
 
 
         Label currentScoreLabel = new Label("Current score: " + _quizModel.getNumCorrectWords() + " out of "+ _quizModel.getCurruntWordIndex());
         currentScoreLabel.setTranslateY(-50);
-        currentScoreLabel.setFont(Font.font ("Verdana", 20));
+        currentScoreLabel.setId("captiontext");
+        
         // Label that displays what number word it is, eg Word 5 of 10
         Label wordCountLabel = new Label("Enter Word " + (_quizModel.getCurruntWordIndex() + 1) + " of " + _quizModel.getNumWordsInQuiz());
-
+        wordCountLabel.setId("captiontext");
+        
         //Text input where user will enter word
         final TextField input = new TextField();
         input.setPromptText("Spell word here");
@@ -132,10 +134,14 @@ public class EnterWordScene {
         VBox outerLayout = new VBox(10);
         outerLayout.setPadding(new Insets(30, 0, 0, 0));
 
-        // add the inner componenets to the outer layout
+        // add the inner components to the outer layout
         outerLayout.getChildren().addAll(label1,currentScoreLabel, wordCountLabel, innerLayout);
         outerLayout.setAlignment(Pos.CENTER);
 
+        outerLayout.setBackground(AppModel.getBackground());
+        
+        outerLayout.getStylesheets().add("app/scene/myStyle.css");
+        
         // create new app.scene using outerLayour
         return new Scene(outerLayout, AppModel.getWidth(), AppModel.getHeight());
     }

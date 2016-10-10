@@ -1,0 +1,5 @@
+#btn {
+	-fx-bakcground-color: linear-gradient(#ff5400, #be1d00);
+	-fx-background-radius: 30;
+	-fx-text-fill: white;
+}
