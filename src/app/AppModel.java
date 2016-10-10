@@ -28,8 +28,8 @@ public class AppModel extends Application{
 	private static QuizModel _quizModel;
 	
 	//"500" is a placeholder for the actual default dimensions
-	private final static int DEFAULT_WIDTH = 500;
-	private final static int DEFAULT_HEIGHT = 500;
+	private final static int DEFAULT_WIDTH = 1244;
+	private final static int DEFAULT_HEIGHT = 700;
 
 	private static int _numLevels = 11;
 
@@ -103,6 +103,7 @@ public class AppModel extends Application{
 		_window = window;
 	}
 	public static void setScene(Scene scene){
+		
 		_window.setScene(scene);
 		_window.show();
 	}

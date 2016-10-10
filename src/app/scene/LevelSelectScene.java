@@ -82,7 +82,7 @@ public class LevelSelectScene {
         
 		//Adds all components to root layout and returns the app.scene containing the layout
 		root.getChildren().addAll(titleLbl, promptLbl,buttonLayout, returnBtn);
-		return(new Scene(root, AppModel.getWidth(), AppModel.getHeight()));
+		return(new Scene(root, AppModel.getWidth(),AppModel.getHeight()));
 	}
 
 	//Sets the app.scene of the window as the Level Select Scene
