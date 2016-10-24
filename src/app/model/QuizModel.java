@@ -20,15 +20,28 @@ public class QuizModel {
     private int _curruntWordIndex;
     private QuizState _quizState;
     private WordModel _wordModel;
-    private static final int MAX_QUIZ_WORDS = 10;
+    private static int MAX_QUIZ_WORDS = 10;
     private static final int PASS_LEVEL_SCORE = 9;
     private boolean _successfulQuiz = false;
     private boolean _isHardestLevel;
+    private GameState _gameState;
+    private int _numberOfLives;
 
 
-    public QuizModel(boolean isReview, int levelSelected) {
-        _isReview = isReview;
+    public QuizModel(GameState gameState, int levelSelected) {
+        _gameState = gameState;
         _levelSelected = levelSelected;
+       
+        if(_gameState == GameState.ONELIFE){
+        	_numberOfLives = 1;
+        	MAX_QUIZ_WORDS = 100;
+        }else if (_gameState == GameState.THREELIVES){
+        	_numberOfLives = 3;
+        	MAX_QUIZ_WORDS = 100;
+        }else{
+        	_numberOfLives =-1;
+        }
+        
         if(getLevelSelected() == AppModel.getLevelsUnlocked() && AppModel.getLevelsUnlocked() < AppModel.getNumLevels()) {
             _isHardestLevel = true;
         } else {
@@ -56,9 +69,7 @@ public class QuizModel {
     private ArrayList<String> generateQuizWords() {
         ArrayList<String> quizWords = new ArrayList<>();
         WordFile file = WordFile.SPELLING_LIST;
-        if(_isReview) {
-            file = WordFile.REVIEW;
-        }
+       
         ArrayList<String> wordsFromList= FileModel.getWordsFromLevel(file, getLevelSelected());
         int numWordsInQuiz = MAX_QUIZ_WORDS;
         if(wordsFromList.size() < MAX_QUIZ_WORDS) {
@@ -112,10 +123,21 @@ public class QuizModel {
     public boolean getIsHardestLevel() {
         return _isHardestLevel;
     }
-
+    public GameState getGameState() {
+		return _gameState;
+	}
+    public int getNumberOfLives(){
+    	return _numberOfLives;
+    }
+    
+    public boolean outOfLives(){
+    	return (_numberOfLives==0);
+    }
     // End of getters ------------------------------------------------------------------------------------------
 
-
+    public void setNumberOfLives(int number){
+    	_numberOfLives = number;
+    }
 
     /*
      * Update the current state of the quiz, including the state of the word
@@ -127,6 +149,8 @@ public class QuizModel {
             _curruntWordIndex++;
             if(!_wordModel.getWordState().equals(WordState.FAILED)) {
                 _numCorrectWords++;
+            }else{
+            	_numberOfLives--;
             }
         
         // If we have gone through all words in the quiz, the quiz is finished
@@ -180,4 +204,6 @@ public class QuizModel {
         // Return a true response to the view if successful submission
         return true;
     }
+
+	
 }

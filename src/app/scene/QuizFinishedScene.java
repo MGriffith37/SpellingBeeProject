@@ -1,6 +1,7 @@
 package app.scene;
 
 import app.AppModel;
+import app.model.GameState;
 import app.model.QuizModel;
 import app.model.WordState;
 import javafx.event.ActionEvent;
@@ -19,13 +20,13 @@ import javafx.scene.text.Font;
  */
 public class QuizFinishedScene {
     private QuizModel _quizModel;
-    private boolean _isReview;
+    private GameState _gameState;
     @SuppressWarnings("unused")
 	private WordState _currentWordState;
 
     QuizFinishedScene() {
         _quizModel = AppModel.getQuizModel();
-        _isReview = _quizModel.getIsReview();
+        _gameState = _quizModel.getGameState();
         _currentWordState = _quizModel.getWordState();
     }
 
@@ -67,7 +68,7 @@ public class QuizFinishedScene {
         retryLevelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                AppModel.startQuiz(_isReview, _quizModel.getLevelSelected());
+                AppModel.startQuiz(_gameState, _quizModel.getLevelSelected());
             }
         });
 
@@ -75,7 +76,7 @@ public class QuizFinishedScene {
         nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                AppModel.startQuiz(_isReview, _quizModel.getLevelSelected() + 1);
+                AppModel.startQuiz(_gameState, _quizModel.getLevelSelected() + 1);
             }
         });
         //Layout

@@ -20,8 +20,8 @@ public class StatisticsScene {
 		//Create root and app.scene to be built
 		VBox root = new VBox(10);
 		root.setAlignment(Pos.CENTER);
-		
-        Scene scene = new Scene(root, AppModel.getWidth(), AppModel.getHeight(), Color.WHITE);
+		root.getStylesheets().add("app/scene/myStyle.css");
+        Scene scene = new Scene(root, AppModel.getWidth(), AppModel.getHeight());
 
         TabPane tabPane = new TabPane();
 

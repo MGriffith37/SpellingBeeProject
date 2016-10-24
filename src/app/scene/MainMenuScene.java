@@ -1,7 +1,5 @@
 package app.scene;
 
-import java.io.File;
-
 import app.AppModel;
 import app.model.GameState;
 import javafx.event.ActionEvent;
@@ -11,14 +9,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class MainMenuScene {
 	private final static int BTN_WIDTH=200;
@@ -42,6 +37,11 @@ public class MainMenuScene {
 		title.setId("headingtext");
 		title.setTranslateY(-40);
 
+		TextArea description = new TextArea();
+		description.setMaxWidth(260);
+		description.setMaxHeight(40);
+		description.setEditable(false);
+		
 		//Creates new quiz button, that will start a new quiz when clicked
 		Button quizBtn = new Button("Standard Quiz");
 		quizBtn.setMinWidth(BTN_WIDTH);
@@ -52,6 +52,22 @@ public class MainMenuScene {
 			public void handle(ActionEvent event) {
 				LevelSelectScene.setGameState(GameState.QUIZ);
 				LevelSelectScene.setScene();
+			}
+		});
+		quizBtn.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				quizBtn.setEffect(new DropShadow());
+				description.setText("Spell 10 words from a selected level.\nSpell 9 or more to get a video prize!");
+			}
+		});
+		quizBtn.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				quizBtn.setEffect(null);
+				description.clear();
 			}
 		});
 
@@ -66,7 +82,24 @@ public class MainMenuScene {
 				LevelSelectScene.setScene();
 			}
 		});
+		timeBtn.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>(){
 
+			@Override
+			public void handle(MouseEvent arg0) {
+				timeBtn.setEffect(new DropShadow());
+				description.setText("Spell words until the time runs out.\nGo for a high score!");
+			}
+		});
+		timeBtn.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				timeBtn.setEffect(null);
+				description.clear();
+			}
+		});
+		
+		
 
 		//Creates review button, that will start a new review quiz when clicked
 		Button oneLifeBtn = new Button("One Life");
@@ -76,10 +109,28 @@ public class MainMenuScene {
 			@Override
 			public void handle(ActionEvent event) {
 				LevelSelectScene.setGameState(GameState.ONELIFE);
+
 				LevelSelectScene.setScene();
 			}
 		});
+		oneLifeBtn.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>(){
 
+			@Override
+			public void handle(MouseEvent arg0) {
+				oneLifeBtn.setEffect(new DropShadow());
+				description.setText("Spell words until you run out of lives.\nGo for a high score!");
+			}
+		});
+		oneLifeBtn.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				oneLifeBtn.setEffect(null);
+				description.clear();
+			}
+		});
+		
+		
 
 		//Creates review button, that will start a new review quiz when clicked
 		Button threeLivesBtn = new Button("Three Lives");
@@ -89,11 +140,29 @@ public class MainMenuScene {
 			@Override
 			public void handle(ActionEvent event) {
 				LevelSelectScene.setGameState(GameState.THREELIVES);
+				
 				LevelSelectScene.setScene();
 			}
 		});
+		
 
+		threeLivesBtn.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>(){
 
+			@Override
+			public void handle(MouseEvent arg0) {
+				threeLivesBtn.setEffect(new DropShadow());
+				description.setText("Spell words until you run out of lives.\nGo for a high score!");
+			}
+		});
+		threeLivesBtn.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				threeLivesBtn.setEffect(null);
+				description.clear();
+			}
+		});
+		
 		//Creates statistics button, that will present word statistics when clicked
 		Button hiscoreBtn = new Button("High Score");
 		hiscoreBtn.setMinWidth(BTN_WIDTH);
@@ -102,11 +171,27 @@ public class MainMenuScene {
 
 			@Override
 			public void handle(ActionEvent event) {
-				StatisticsScene.setScene();
+				ScoreSelectScene.setScene();
 			}
 
 		});
+		hiscoreBtn.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>(){
 
+			@Override
+			public void handle(MouseEvent arg0) {
+				hiscoreBtn.setEffect(new DropShadow());
+				description.setText("Look at your high scores!");
+			}
+		});
+		hiscoreBtn.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				hiscoreBtn.setEffect(null);
+				description.clear();
+			}
+		});
+		
 		//Creates settings button, that will take user to settings menu when clicked
 		Button settingsBtn = new Button("Settings");
 		settingsBtn.setMinWidth(BTN_WIDTH);
@@ -119,6 +204,23 @@ public class MainMenuScene {
 			}
 
 		});
+		settingsBtn.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				settingsBtn.setEffect(new DropShadow());
+				description.setText("Configure the application settings.");
+			}
+		});
+		settingsBtn.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				settingsBtn.setEffect(null);
+				description.clear();
+			}
+		});
+		
 
 
 
@@ -129,10 +231,11 @@ public class MainMenuScene {
 		gridPane.add(hiscoreBtn, 0, 2);
 		gridPane.add(settingsBtn, 1, 2);
 		
+		
 		layout1.getStylesheets().add("app/scene/myStyle.css");
 
 		gridPane.setAlignment(Pos.CENTER);
-		layout1.getChildren().addAll(title, gridPane);
+		layout1.getChildren().addAll(title, gridPane,description);
 		layout1.setBackground(AppModel.getBackground());
 		return(new Scene(layout1, AppModel.getWidth(), AppModel.getHeight()));
 

@@ -22,8 +22,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import app.model.FileModel;
+import app.model.GameState;
 import app.model.QuizModel;
 import app.model.QuizState;
+import app.model.WordFile;
 import app.scene.EnterWordScene;
 import app.scene.MainMenuScene;
 import app.scene.NoWordsScene;
@@ -57,6 +59,7 @@ public class AppModel extends Application{
 	private static void setup(){
 		//Initialise files
 		FileModel.initialise();
+		FileModel.addToCustomList(WordFile.SPELLING_LIST.toString());
 		setNumLevels(FileModel.calcNumLevels());
 		try{
 			BufferedReader reader = new BufferedReader(new FileReader(".app_files/.settings.txt"));
@@ -124,8 +127,8 @@ public class AppModel extends Application{
 		_voice = voice;
 		updateTxtFile();
 	}
-	public static QuizState setQuizModel(boolean isReview, int levelSelected){
-		_quizModel = new QuizModel(isReview, levelSelected);
+	public static QuizState setQuizModel(GameState gameState, int levelSelected){
+		_quizModel = new QuizModel(gameState, levelSelected);
 		return _quizModel.start();
 	}
 	//to be invoked from start() method that starts the GUI
@@ -173,21 +176,7 @@ public class AppModel extends Application{
 	}
 	
 	public void start(Stage primaryStage) throws Exception{
-//		StackPane root = new StackPane();
-//		
-//		File file = new File("src/app/chalkboard.png");
-//		Image image = new Image(file.toURI().toString());
-//		
-//		BackgroundSize backgroundSize = new BackgroundSize(AppModel.getWidth(),AppModel.getHeight(),true,true,true,false);
-//		BackgroundImage backgroundImg = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
-//		Background background = new Background(backgroundImg);
-//		root.setBackground(background);
-//		System.out.println("path: "+image);
-//		root.setStyle(" -fx-background-imageL url('" + image +"'); " 
-//					+ "fx-background-positionL center center; "
-//					+ "fx-background-repeat: stretch;");
-//		primaryStage.setScene(new Scene(root,300,250));
-//		primaryStage.show();
+
 		_window = primaryStage;
 		if(_isFirstTime){
 			WelcomeScene.setScene();
@@ -196,9 +185,9 @@ public class AppModel extends Application{
 		}
 	}
 
-	public static void startQuiz( boolean isReview, int level) {
+	public static void startQuiz( GameState gameState, int level) {
 		//Initialises new quiz app.model object with the selected level
-		QuizState quizState = AppModel.setQuizModel(isReview,level);
+		QuizState quizState = AppModel.setQuizModel(gameState,level);
 
 		//If Quiz is ready
 		// Initialises new app.scene.EnterWordScene app.scene to be built next

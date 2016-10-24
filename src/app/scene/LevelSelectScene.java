@@ -1,6 +1,7 @@
 package app.scene;
 
 import app.AppModel;
+import app.model.GameState;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -16,6 +17,7 @@ import javafx.scene.text.Font;
 public class LevelSelectScene {
 
 	private static boolean _isReview;
+	private static GameState _gameState;
 
 	private static Scene build(){
 		//Set title
@@ -25,10 +27,19 @@ public class LevelSelectScene {
 		Label titleLbl = new Label();
 
 		//Sets title to mode type
-		if(_isReview){
-			titleLbl.setText("Review Mode");
-		}else{
-			titleLbl.setText("New Quiz");
+		switch(_gameState){
+		case QUIZ:
+			titleLbl.setText("Standard Quiz");
+		break;
+		case TIME:
+			titleLbl.setText("Time Attack");
+			break;
+		case ONELIFE:
+			titleLbl.setText("One Life");
+		break;
+		case THREELIVES:
+			titleLbl.setText("Three Lives");
+			break;
 		}
 		titleLbl.setId("headingtext");
 
@@ -57,7 +68,7 @@ public class LevelSelectScene {
 					//Gets the level that the button corresponds to
 					String str = levelBtn.getText().replaceAll("\\D+","");
 					int level = Integer.parseInt(str);
-					AppModel.startQuiz(_isReview, level);
+					AppModel.startQuiz(_gameState, level);
 				}
 			});
 
@@ -98,8 +109,8 @@ public class LevelSelectScene {
 	}
 
 	//Allows this class to know if it is in review mode or not
-	public static void setIsReview(boolean isReview){
-		_isReview = isReview;
+	public static void setGameState(GameState gameState){
+		_gameState = gameState;
 	}
 
 }

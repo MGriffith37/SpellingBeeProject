@@ -13,6 +13,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 
 /**
@@ -98,7 +101,14 @@ public class WordResultScene {
         layout.setBackground(AppModel.getBackground());
         layout.getStylesheets().add("app/scene/myStyle.css");
         
-        return new Scene(layout, AppModel.getWidth(), AppModel.getHeight());
+        Scene scene = new Scene(layout, AppModel.getWidth(), AppModel.getHeight());
+        actionButton.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.ENTER,  KeyCombination.SHORTCUT_ANY), 
+    			new Runnable(){
+    				@Override public void run(){
+    					actionButton.fire();
+    					}
+    				});
+        return scene;
     }
 
     public void setScene() {

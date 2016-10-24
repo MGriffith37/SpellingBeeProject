@@ -89,6 +89,7 @@ public class Statistics {
        //Create layout and add scroll pane and table as contents
         VBox root = new VBox();
 
+        root.getStylesheets().add("app/scene/myStyle.css");
         root.getChildren().addAll(table);
         root.setAlignment(Pos.CENTER);
 

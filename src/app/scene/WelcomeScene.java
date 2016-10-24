@@ -18,9 +18,9 @@ public class WelcomeScene{
 		AppModel.getWindow().setTitle("Welcome");
 
 		//Create app.scene labels
-		Label welcomeLbl = new Label("Hey There!\nWelcome to VoxSpell!");
-		welcomeLbl.setId("headingtext");
-		Label selectLbl = new Label("To get started, please select your desired starting level");
+		Label welcomeLbl = new Label("Welcome to VoxSpell!");
+		welcomeLbl.setId("subheadingtext");
+		Label selectLbl = new Label("Select the starting level!");
 		selectLbl.setId("captiontext");
 		//create drop down box containing all available levels
 		final ComboBox<String> comboBox = new ComboBox<String>();
@@ -64,6 +64,7 @@ public class WelcomeScene{
 		layout1.getChildren().addAll(welcomeLbl, selectLbl, comboBox, selectBtn);
 
 		layout1.setBackground(AppModel.getBackground());
+		layout1.getStylesheets().add("app/scene/myStyle.css");
 		return(new Scene(layout1, AppModel.getWidth(), AppModel.getHeight()));
 	}
 	

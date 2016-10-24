@@ -1,6 +1,4 @@
-.root{
-	fx-background-color: linear-gradient(blue,green);
-}
+
 #headingtext .text{
 	-fx-font: 100px Verdana;
 	-fx-fill: linear-gradient(orange,red);
@@ -10,19 +8,31 @@
 #subheadingtext .text{
 	-fx-font: 50px Verdana;
 	-fx-fill: linear-gradient(orange,red);
+	-fx-font-weight: bold;
 	-fx-stroke: black;
 	-fx-stroke-width: 1px;
 }
 #captiontext .text{
 	-fx-font: 30px Verdana;
-	-fx-fill: black;
+	-fx-fill: linear-gradient(yellow, red);
+	-fx-font-weight: bold;
+	-fx-stroke: black;
+	-fx-stroke-width: 1px;
 }
 .button {
 	-fx-background-color: linear-gradient(#ff5400, #be1d00);
 	-fx-background-radius: 30;
 	-fx-text-fill: white;
 }
-.button:hover {
-	fx-background-color: linear-gradient(#cc0000, #be1d00);
-	fx-text-fill: black;
+#buttontext .text{
+	-fx-font: 25px Verdana;
+	-fx-fill: black;
+	-fx-font-weight: bold;
+}
+.text-area *.text{
+	-fx-text-alignment:center;
+}
+.text-area{
+	-fx-background-color: linear-gradient(#ff5400, #be1d00);
+	
 }

@@ -26,6 +26,7 @@ public class LevelUnlockScene {
 			+".\nYou may now access Levels 1 to " + AppModel.getLevelsUnlocked() + ".");
 			confirmLbl.setTextAlignment(TextAlignment.CENTER);
 		}
+		confirmLbl.setId("captiontext");
 		Button okBtn = new Button("Okay");
 		//Sets action event to build and set new app.scene as the main menu app.scene, once okay button is clicked
 		okBtn.setOnAction(new EventHandler<ActionEvent>(){
@@ -41,6 +42,7 @@ public class LevelUnlockScene {
 		layout1.getChildren().addAll(confirmLbl, okBtn);
 
 		layout1.setBackground(AppModel.getBackground());
+		layout1.getStylesheets().add("app/scene/myStyle.css");
 		return(new Scene(layout1, AppModel.getWidth(), AppModel.getHeight()));
 	}
 	

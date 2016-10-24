@@ -19,7 +19,7 @@ public class InvalidInputScene {
 
     static Stage _window;
 
-    public static Scene build() {
+    public static Scene build(String message) {
         //Clear history, maybe could be in a better place in terms of responsibilities
          _window = new Stage();
 
@@ -31,7 +31,7 @@ public class InvalidInputScene {
 
         //Components
         Label label = new Label();
-        label.setText("Whoops! Only spell with letters please!");
+        label.setText(message);
         label.setFont(new Font("Verdana", 20));
         Button closeButton = new Button("OK");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -55,8 +55,8 @@ public class InvalidInputScene {
 
     }
 
-    public static void setScene() {
-        Scene scene = build();
+    public static void setScene(String message) {
+        Scene scene = build(message);
         _window.setScene(scene);
         //Needs to be closed before returning
         _window.showAndWait();

@@ -14,7 +14,8 @@ public class FileModel {
 
     //Stores Words
     static HashMap<WordFile, HashMap<Integer, ArrayList<String>>> _fileMap = new HashMap<>();
-
+    static ArrayList<String> _customLists = new ArrayList<String>();
+    
     static private ArrayList<String> getLevelWords(WordFile file, int level) {
         HashMap<Integer, ArrayList<String>> fileWords =_fileMap.get(file);
         // Add logic to check that the file has been made
@@ -270,4 +271,11 @@ public class FileModel {
                 return count;
             }
         }
+    
+    public static ArrayList<String> getCustomList(){
+    	return _customLists;
+    }
+    public static void addToCustomList(String address){
+    	_customLists.add(address);
+    }
 }
