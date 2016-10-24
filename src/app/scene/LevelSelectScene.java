@@ -31,8 +31,8 @@ public class LevelSelectScene {
 		case QUIZ:
 			titleLbl.setText("Standard Quiz");
 		break;
-		case TIME:
-			titleLbl.setText("Time Attack");
+		case REVIEW:
+			titleLbl.setText("Review Quiz");
 			break;
 		case ONELIFE:
 			titleLbl.setText("One Life");

@@ -72,13 +72,13 @@ public class MainMenuScene {
 		});
 
 		//Creates review button, that will start a new review quiz when clicked
-		Button timeBtn = new Button("Time Attack");
+		Button timeBtn = new Button("Review Quiz");
 		timeBtn.setMinWidth(BTN_WIDTH);
 		timeBtn.setMinHeight(BTN_HEIGHT);
 		timeBtn.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				LevelSelectScene.setGameState(GameState.TIME);
+				LevelSelectScene.setGameState(GameState.REVIEW);
 				LevelSelectScene.setScene();
 			}
 		});
@@ -87,7 +87,7 @@ public class MainMenuScene {
 			@Override
 			public void handle(MouseEvent arg0) {
 				timeBtn.setEffect(new DropShadow());
-				description.setText("Spell words until the time runs out.\nGo for a high score!");
+				description.setText("Spell previously mispelt words.\nMaster those nasty words!");
 			}
 		});
 		timeBtn.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>(){

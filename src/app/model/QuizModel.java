@@ -69,7 +69,9 @@ public class QuizModel {
     private ArrayList<String> generateQuizWords() {
         ArrayList<String> quizWords = new ArrayList<>();
         WordFile file = WordFile.SPELLING_LIST;
-       
+        if(_gameState.equals(GameState.REVIEW)){
+        	file = WordFile.REVIEW;
+        }
         ArrayList<String> wordsFromList= FileModel.getWordsFromLevel(file, getLevelSelected());
         int numWordsInQuiz = MAX_QUIZ_WORDS;
         if(wordsFromList.size() < MAX_QUIZ_WORDS) {
@@ -178,6 +180,7 @@ public class QuizModel {
         switch (_wordModel.getWordState()) {
             case FAILED:
                 FileModel.addWordToLevel(WordFile.FAILED, _wordModel.getWord(), getLevelSelected());
+                FileModel.addUniqueWordToLevel(WordFile.REVIEW, _wordModel.getWord(), getLevelSelected());
                 break;
             case MASTERED:
                 FileModel.addWordToLevel(WordFile.MASTERED, _wordModel.getWord(), getLevelSelected());

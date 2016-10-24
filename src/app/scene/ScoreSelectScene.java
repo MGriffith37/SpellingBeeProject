@@ -55,13 +55,13 @@ public class ScoreSelectScene {
 		});
 
 		//Creates review button, that will start a new review quiz when clicked
-		Button timeBtn = new Button("Time Attack");
+		Button timeBtn = new Button("Review Quiz");
 		timeBtn.setMinWidth(BTN_WIDTH);
 		timeBtn.setMinHeight(BTN_HEIGHT);
 		timeBtn.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				ScoreScene.setGameState(GameState.TIME);
+				ScoreScene.setGameState(GameState.REVIEW);
 				ScoreScene.setScene();
 			}
 		});

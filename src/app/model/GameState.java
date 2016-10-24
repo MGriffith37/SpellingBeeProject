@@ -1,5 +1,5 @@
 package app.model;
 
 public enum GameState {
-	QUIZ,TIME,ONELIFE,THREELIVES
+	QUIZ,REVIEW,ONELIFE,THREELIVES
 }

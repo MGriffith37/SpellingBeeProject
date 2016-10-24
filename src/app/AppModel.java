@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -37,6 +37,8 @@ public class AppModel extends Application{
 	private static Boolean _isFirstTime;
 	private static int _levelsUnlocked;
 	private static String _voice;
+	
+	private static Timeline _timeline;
 	
 	private static Stage _window;
 	private static QuizModel _quizModel;
@@ -112,6 +114,9 @@ public class AppModel extends Application{
 	}
 	public static Background getBackground(){
 		return _background;
+	}
+	public static Timeline getTimeline(){
+		return _timeline;
 	}
 
 	//Setter methods

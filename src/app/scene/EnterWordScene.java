@@ -45,8 +45,8 @@ public class EnterWordScene {
 		case QUIZ:
 			label1.setText("Standard Quiz");
 			break;
-		case TIME:
-			label1.setText("Time Attack");
+		case REVIEW:
+			label1.setText("Review Quiz");
 			break;
 		case ONELIFE:
 			label1.setText("One Life");
