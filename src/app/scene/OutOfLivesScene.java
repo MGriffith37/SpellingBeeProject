@@ -1,8 +1,5 @@
 package app.scene;
 
-
-
-
 import app.AppModel;
 import app.model.FileModel;
 import app.model.GameState;
@@ -19,113 +16,145 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 /**
- * Created by Fraser McIntosh on 19/09/2016.
+ * Created by Max Griffith on 10/10/2016. Responsible for informing user that
+ * they are out of lives and giving option to submit their score with their
+ * name.
  */
 public class OutOfLivesScene {
-    private QuizModel _quizModel;
-    private GameState _gameState;
-    @SuppressWarnings("unused")
+	private QuizModel _quizModel;
+	private GameState _gameState;
+	@SuppressWarnings("unused")
 	private WordState _currentWordState;
 
-    OutOfLivesScene() {
-        _quizModel = AppModel.getQuizModel();
-        _gameState = _quizModel.getGameState();
-        _currentWordState = _quizModel.getWordState();
-    }
+	/**
+	 * Constructor to set corresponding quizmodel, game state and word state
+	 */
+	OutOfLivesScene() {
+		_quizModel = AppModel.getQuizModel();
+		_gameState = _quizModel.getGameState();
+		_currentWordState = _quizModel.getWordState();
+	}
 
-    // Only get to this app.scene if quiz still going, so don't need to check that (or do we??)
-    private Scene build() {
+	/**
+	 * Builds scene to be displayed to user
+	 */
+	private Scene build() {
 
-        //Label informing the user if the answered correctly or not
-        Label outcomeLabel = new Label("Out Of Lives");
-        outcomeLabel.setId("subheadingtext");
-       
+		// Label informing the user they are out of lives
+		Label outcomeLabel = new Label("Out Of Lives");
+		outcomeLabel.setId("subheadingtext");
 
-        
-        // Let user know their score
-        Label scoreLabel = new Label("You got a score of " + _quizModel.getNumCorrectWords()+"!");
-        scoreLabel.setId("captiontext");
-        
-        Label enterUserLbl = new Label("Enter your name for the Scoreboard");
-        enterUserLbl.setId("captiontext");
-        
-        HBox userLayout = new HBox();
-        userLayout.setAlignment(Pos.CENTER);
-        final TextField userTxt = new TextField();
-        userTxt.setPromptText("Your name here");
-        Button submitBtn = new Button("Submit Name");
-        userLayout.getChildren().addAll(userTxt, submitBtn);
-        
-        submitBtn.setOnAction(new EventHandler<ActionEvent>(){
+		// Let user know their score
+		Label scoreLabel = new Label("You got a score of " + _quizModel.getNumCorrectWords() + "!");
+		scoreLabel.setId("captiontext");
 
+		// Prompt user to enter their name to submit their score
+		Label enterUserLbl = new Label("Enter your name for the Scoreboard");
+		enterUserLbl.setId("captiontext");
+
+		// horiontal layout for score submission
+		HBox userLayout = new HBox();
+		userLayout.setAlignment(Pos.CENTER);
+
+		// Text field where user submits their name
+		final TextField userTxt = new TextField();
+		userTxt.setPromptText("Your name here");
+		// Button to confirm user name to be submitted
+		Button submitBtn = new Button("Submit Name");
+
+		// Label that displays done when they submit their score
+		Label doneLbl = new Label();
+		doneLbl.setId("buttontext");
+		userLayout.getChildren().addAll(userTxt, submitBtn, doneLbl);
+
+		// Event to submit score with username to be written to a score file
+		submitBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				String name = userTxt.getText();
-				if(_quizModel.getGameState().equals(GameState.ONELIFE)){
-				FileModel.addWordToLevel(WordFile.ONELIFESCORE, name + ": "+_quizModel.getNumCorrectWords(), _quizModel.getLevelSelected());
-				}else{
-					FileModel.addWordToLevel(WordFile.THREELIVESSCORE, name + ": "+_quizModel.getNumCorrectWords(), _quizModel.getLevelSelected());
+				// Checks name is only alphabetical characters, otherwise
+				// displays warning window
+				if (!name.matches("[a-zA-Z]+")) {
+					InvalidInputScene.setScene("Alphabetical Characters Only");
+				} else {
+					if (_quizModel.getGameState().equals(GameState.ONELIFE)) {
+						// If finished one life quiz, writes their score and
+						// name to one life score file
+						FileModel.addWordToLevel(WordFile.ONELIFESCORE, name + ":" + _quizModel.getNumCorrectWords(),
+								_quizModel.getLevelSelected());
+					} else {
+						// If finished three lives quiz, writes their score and
+						// name to three lives score file
+						FileModel.addWordToLevel(WordFile.THREELIVESSCORE, name + ":" + _quizModel.getNumCorrectWords(),
+								_quizModel.getLevelSelected());
+					}
+					// Disables the submission components once done and displays
+					// the done label to user
+					submitBtn.setDisable(true);
+					userTxt.setDisable(true);
+					doneLbl.setText("Score Submitted!");
 				}
 			}
-        });
-        // Button that either says "Next Word", or "Try Again", depending
-        // on whether the previous answer was correct or not
-        Button levelSelectButton = new Button("Level Select");
-        levelSelectButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                LevelSelectScene.setScene();
-            }
-        });
+		});
 
-        Button retryLevelButton = new Button("Retry Level");
-        retryLevelButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                AppModel.startQuiz(_gameState, _quizModel.getLevelSelected());
-            }
-        });
+		// Button prompting user to go back to level select scene for the same
+		// game mode
+		Button levelSelectButton = new Button("Level Select");
+		levelSelectButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				LevelSelectScene.setScene();
+			}
+		});
 
-       
-        //Layout
-        HBox innerLayout = new HBox();
-        // add components to inner layout
+		// Button prompting user to retry the same level for same game mode
+		Button retryLevelButton = new Button("Retry Level");
+		retryLevelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				AppModel.startQuiz(_gameState, _quizModel.getLevelSelected());
+			}
+		});
 
-            innerLayout.getChildren().addAll(levelSelectButton, retryLevelButton);
-        
-        innerLayout.setAlignment(Pos.CENTER);
-        VBox outerLayout = new VBox(10);
-        outerLayout.setPadding(new Insets(30, 0, 0, 0));
+		// Layout
+		HBox innerLayout = new HBox();
+		// add components to inner layout
 
-        // Goes in outer layout
-        Button returnBtn = new Button("Return to Main Menu");
-        returnBtn.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent arg0) {
-                MainMenuScene.setScene();
-            }
-        });
+		innerLayout.getChildren().addAll(levelSelectButton, retryLevelButton);
 
-        //Layout
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(outcomeLabel, scoreLabel,enterUserLbl,userLayout);
-        
-        layout.getChildren().addAll(innerLayout, returnBtn);
-        layout.setAlignment(Pos.CENTER);
+		innerLayout.setAlignment(Pos.CENTER);
+		VBox outerLayout = new VBox(10);
+		outerLayout.setPadding(new Insets(30, 0, 0, 0));
 
-        layout.setBackground(AppModel.getBackground());
-        layout.getStylesheets().add("app/scene/myStyle.css");
-        
-        return new Scene(layout, AppModel.getWidth(), AppModel.getHeight());
-    }
+		// Button to return user to main menu
+		Button returnBtn = new Button("Return to Main Menu");
+		returnBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				MainMenuScene.setScene();
+			}
+		});
 
-    public void setScene() {
-        Scene OutOfLivesScene = build();
-        AppModel.setScene(OutOfLivesScene);
-    }
+		// OVerarching layout containing all components
+		VBox topLayout = new VBox(10);
+		topLayout.getChildren().addAll(outcomeLabel, scoreLabel, enterUserLbl, userLayout, innerLayout, returnBtn);
 
+		topLayout.setAlignment(Pos.CENTER);
+
+		topLayout.setBackground(AppModel.getBackground());
+		topLayout.getStylesheets().add("app/scene/myStyle.css");
+
+		return new Scene(topLayout, AppModel.getWidth(), AppModel.getHeight());
+	}
+
+	/**
+	 * Sets scene using app model primary stage
+	 */
+	public void setScene() {
+		Scene OutOfLivesScene = build();
+		AppModel.setScene(OutOfLivesScene);
+	}
 
 }

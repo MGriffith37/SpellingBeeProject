@@ -36,3 +36,46 @@
 	-fx-background-color: linear-gradient(#ff5400, #be1d00);
 	
 }
+.tab-pane *.tab-header-background{
+	-fx-background-color: transparent;
+}
+.tab{
+	-fx-background-color: linear-gradient(#ff5400, #be1d00);
+}
+.tab .tab-label{
+	-fx-text-fill:white;
+	-fx-font-weight: bold;
+}
+.border-pane{
+	-fx-background-color: transparent;
+}
+.table-view{
+	-fx-background-color: transparent;
+}
+.table-view .column-header-background{
+	-fx-background-color: linear-gradient(#ff5400, #be1d00);
+	-fx-text-fill: white;
+}
+.table-view .column-header-background .label{
+	-fx-background-color: linear-gradient(#ff5400, #be1d00);
+}
+.table-view .column-header-background .label{
+	-fx-text-fill:white;
+}
+.table-view .column-header{
+	-fx-text-fill: white;
+}
+.table-view .table-cell{
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+}
+.table-row-cell{
+	-fx-background-color: -fx-table-cell-border-color, white;
+	-fx-background-insets: 0, 0 0 1 0;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: linear-gradient(#ff5400, #be1d00);
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}

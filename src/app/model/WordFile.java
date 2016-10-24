@@ -2,6 +2,7 @@ package app.model;
 
 /**
  * Created by Fraser McIntosh on 16/09/2016.
+ * Enum corresponding to the different files and their respective file addresses
  */
 public enum WordFile {
 
@@ -17,13 +18,22 @@ public enum WordFile {
 	
 	
     String _filename;
+    /**
+     * Constructor to set filename for enum
+     */
     private WordFile(String filename) {
         _filename = filename;
     }
 
+    /**
+     * Sets file name
+     */
     public void setFileName(String filename){
     	_filename = filename;
     }
+    /**
+     * toString overridden method
+     */
     @Override
     public String toString() {
         return _filename;

@@ -1,9 +1,5 @@
 %Level 1
 %Level 2
-of
-he
-that
-on
 %Level 3
 %Level 4
 %Level 5

@@ -1,12 +1,5 @@
 %Level 1
-we
 %Level 2
-she
-so
-me
-went
-at
-is
 %Level 3
 %Level 4
 %Level 5

@@ -7,20 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 import app.model.FileModel;
 import app.model.GameState;
 import app.model.QuizModel;
@@ -30,144 +16,214 @@ import app.scene.EnterWordScene;
 import app.scene.MainMenuScene;
 import app.scene.NoWordsScene;
 import app.scene.WelcomeScene;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.stage.Stage;
 
+/**
+ * Created by Max Griffith on 10/09/2016
+ * AppModel contains all information and states to maintain the
+ * application itself. Sets up and initialises the GUI All classes
+ * report to this class and all scenes are built and then sent to
+ * AppModel to be displayed.
+ */
+public class AppModel extends Application {
 
-public class AppModel extends Application{
-
+	// settings variables
 	private static Boolean _isFirstTime;
 	private static int _levelsUnlocked;
 	private static String _voice;
-	
-	private static Timeline _timeline;
-	
+
+	// GUI variables
 	private static Stage _window;
 	private static QuizModel _quizModel;
-	
 	private static Background _background;
-	
-	private final static Color DEFAULT_FONT_COLOUR = Color.RED;
-	private final static Font DEFAULT_HEADING_FONT = Font.font("Verdana",FontWeight.BOLD, 35);
-	private final static Font DEFAULT_TEXT_FONT = Font.font("Verdana",FontWeight.BOLD, 16);
-	//"500" is a placeholder for the actual default dimensions
+
+	// Default GUI dimensions
 	private final static int DEFAULT_WIDTH = 832;
 	private final static int DEFAULT_HEIGHT = 600;
 
-	private static int _numLevels = 11;
+	private static int _numLevels;
 
-	/*
-	 * Reads in the 3 settings values from .settings.txt file. 
-	 * These values will persist even if the application is closed.
+	/**
+	 * Reads in the 3 settings values from .settings.txt file. These values will
+	 * persist even if the application is closed. Sets up file model class to
+	 * parse in word information from external txt files
 	 */
-	private static void setup(){
-		//Initialise files
+	private static void setup() {
+		// Initialise files
 		FileModel.initialise();
 		FileModel.addToCustomList(WordFile.SPELLING_LIST.toString());
 		setNumLevels(FileModel.calcNumLevels());
-		try{
+
+		// Read settings info from external txt file
+		try {
 			BufferedReader reader = new BufferedReader(new FileReader(".app_files/.settings.txt"));
 			_isFirstTime = Boolean.parseBoolean(reader.readLine());
 			_levelsUnlocked = Integer.parseInt(reader.readLine());
 			_voice = reader.readLine();
 			setBackground();
 			reader.close();
-		}catch(FileNotFoundException e){
-			//worth creating an alert box to inform user that .setting.txt file is missing?
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	//Getter methods
-	public static int getLevelsUnlocked(){
+	// Getter methods-------------------------------------------------
+	/**
+	 * gets level unlocked
+	 */
+	public static int getLevelsUnlocked() {
 		return _levelsUnlocked;
 	}
-	public static Boolean isItFirstTime(){
+
+	/**
+	 * gets is first time boolean
+	 */
+	public static Boolean isItFirstTime() {
 		return _isFirstTime;
 	}
-	public static String getVoice(){
+
+	/**
+	 * get festival voice
+	 */
+	public static String getVoice() {
 		return _voice;
 	}
-	public static QuizModel getQuizModel(){
+
+	/**
+	 * get quiz model
+	 */
+	public static QuizModel getQuizModel() {
 		return _quizModel;
 	}
-	public static Stage getWindow(){
+
+	/**
+	 * get window
+	 */
+	public static Stage getWindow() {
 		return _window;
 	}
-	public static Color getFontColor(){
-		return DEFAULT_FONT_COLOUR;
-	}
-	public static Font getHeadingFont(){
-		return DEFAULT_HEADING_FONT;
-	}
-	public static Font getTextFont(){
-		return DEFAULT_TEXT_FONT;
-	}
-	public static int getWidth(){
+
+	/**
+	 * get default width
+	 */
+	public static int getWidth() {
 		return DEFAULT_WIDTH;
 	}
-	public static int getHeight(){
+
+	/**
+	 * get default height
+	 */
+	public static int getHeight() {
 		return DEFAULT_HEIGHT;
 	}
-	public static int getNumLevels(){
+
+	/**
+	 * get number of levels
+	 */
+	public static int getNumLevels() {
 		return _numLevels;
 	}
-	public static Background getBackground(){
+
+	/**
+	 * get background
+	 */
+	public static Background getBackground() {
 		return _background;
 	}
-	public static Timeline getTimeline(){
-		return _timeline;
-	}
 
-	//Setter methods
-	public static void setLevelsUnlocked(int value) throws FileNotFoundException{
+	// Setter
+	// methods-----------------------------------------------------------------------
+	/**
+	 * Sets level unlocked value
+	 */
+	public static void setLevelsUnlocked(int value) throws FileNotFoundException {
 		_levelsUnlocked = value;
 		updateTxtFile();
 	}
-	public static void setNotFirstTime() throws FileNotFoundException{
+
+	/**
+	 * Sets the isfirsttime boolean to false
+	 */
+	public static void setNotFirstTime() throws FileNotFoundException {
 		_isFirstTime = false;
 		updateTxtFile();
 	}
-	public static void setVoice(String voice) throws FileNotFoundException{
+
+	/**
+	 * Sets festival voice
+	 */
+	public static void setVoice(String voice) throws FileNotFoundException {
 		_voice = voice;
 		updateTxtFile();
 	}
-	public static QuizState setQuizModel(GameState gameState, int levelSelected){
+
+	/**
+	 * Sets quiz model
+	 */
+	public static QuizState setQuizModel(GameState gameState, int levelSelected) {
 		_quizModel = new QuizModel(gameState, levelSelected);
 		return _quizModel.start();
 	}
-	//to be invoked from start() method that starts the GUI
-	public static void setWindow(Stage window){
+
+	/**
+	 * to be invoked from start() method that starts the GUI
+	 */
+	public static void setWindow(Stage window) {
 		_window = window;
 	}
-	public static void setScene(Scene scene){
-		//String image = AppModel.class.getResource("chalkboard.png").toExternalForm();
-		
+
+	/**
+	 * called by all scene clases to set the current scene
+	 */
+	public static void setScene(Scene scene) {
 		_window.setScene(scene);
-		
 		_window.show();
 	}
-	public static void setToDefault() throws FileNotFoundException{
+
+	/**
+	 * Resets all data for application
+	 */
+	public static void setToDefault() throws FileNotFoundException {
 		_isFirstTime = true;
 		_levelsUnlocked = 0;
 		_voice = "default";
 		updateTxtFile();
 	}
 
-	public static void setBackground(){
+	/**
+	 * Sets background image for GUI to the field image
+	 */
+	public static void setBackground() {
 		File file = new File(".media/field.jpg");
 		Image image = new Image(file.toURI().toString());
-		
-		BackgroundSize backgroundSize = new BackgroundSize(100,100,true,true,true,false);
-		BackgroundImage backgroundImg = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+
+		BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
+		BackgroundImage backgroundImg = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
+				BackgroundPosition.CENTER, backgroundSize);
 		_background = new Background(backgroundImg);
 	}
+
+	/**
+	 * Sets number of levels
+	 */
 	public static void setNumLevels(int numLevels) {
 		_numLevels = numLevels;
 	}
-	
-	//Overwrites .settings.txt file with updated field values 
-	public static void updateTxtFile() throws FileNotFoundException{
+
+	/**
+	 * Overwrites .settings.txt file with updated field values
+	 */
+	public static void updateTxtFile() throws FileNotFoundException {
 		PrintWriter writer = new PrintWriter(".app_files/.settings.txt");
 		writer.println(_isFirstTime.toString());
 		writer.println(_levelsUnlocked);
@@ -175,32 +231,43 @@ public class AppModel extends Application{
 		writer.close();
 	}
 
-	public static void main(String[] args){
+	/**
+	 * Sets up app model instance and launches gui
+	 */
+	public static void main(String[] args) {
 		setup();
 		launch(args);
 	}
-	
-	public void start(Stage primaryStage) throws Exception{
+
+	/**
+	 * Starts GUI and gives the primary stage window where all scenes will be
+	 * displayed
+	 */
+	public void start(Stage primaryStage) throws Exception {
 
 		_window = primaryStage;
-		if(_isFirstTime){
+		_window.setResizable(false);
+		if (_isFirstTime) {
 			WelcomeScene.setScene();
-		}else{
+		} else {
 			MainMenuScene.setScene();
 		}
 	}
 
-	public static void startQuiz( GameState gameState, int level) {
-		//Initialises new quiz app.model object with the selected level
-		QuizState quizState = AppModel.setQuizModel(gameState,level);
+	/**
+	 * Is called when a new quiz is to be started, either standard quiz, review
+	 * or one/three lives mode
+	 */
+	public static void startQuiz(GameState gameState, int level) {
+		// Initialises new quiz app.model object with the selected level
+		QuizState quizState = AppModel.setQuizModel(gameState, level);
 
-		//If Quiz is ready
 		// Initialises new app.scene.EnterWordScene app.scene to be built next
-		if(quizState.equals(QuizState.READY)) {
+		if (quizState.equals(QuizState.READY)) {
 			EnterWordScene wordScene = new EnterWordScene();
 			wordScene.setScene();
 			// Else if no words display no words app.scene
-		} else if (quizState.equals(QuizState.NO_WORDS)){
+		} else if (quizState.equals(QuizState.NO_WORDS)) {
 			NoWordsScene.setScene();
 		}
 	}

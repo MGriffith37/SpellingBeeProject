@@ -11,105 +11,116 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
+/**
+ * Created by Max Griffith on 15/09/2016 Responsible for allowing user to select
+ * their desired quiz level
+ */
 public class LevelSelectScene {
 
-	private static boolean _isReview;
 	private static GameState _gameState;
 
-	private static Scene build(){
-		//Set title
+	/**
+	 * Builds scene to be displayed
+	 */
+	private static Scene build() {
+		// Set title
 		AppModel.getWindow().setTitle("Level Select");
 
-		//Labels current quiz mode - either new quiz or review mode
+		// Labels current quiz mode - one of the four quiz modes
 		Label titleLbl = new Label();
 
-		//Sets title to mode type
-		switch(_gameState){
+		// Sets title to mode type
+		switch (_gameState) {
 		case QUIZ:
 			titleLbl.setText("Standard Quiz");
-		break;
+			break;
 		case REVIEW:
 			titleLbl.setText("Review Quiz");
 			break;
 		case ONELIFE:
 			titleLbl.setText("One Life");
-		break;
+			break;
 		case THREELIVES:
 			titleLbl.setText("Three Lives");
 			break;
 		}
 		titleLbl.setId("headingtext");
 
-		//Details instructions for user
+		// Details instructions for user
 		Label promptLbl = new Label("What level do you want to test on?");
 		promptLbl.setId("captiontext");
-		//Create overarching layout for this app.scene and centers it
+
+		// Create overarching layout for this app.scene and centers it
 		VBox root = new VBox(20);
 		root.setAlignment(Pos.CENTER);
 
-		//Layout for the 11 buttons
+		// Layout for the 11 level buttons
 		GridPane buttonLayout = new GridPane();
-		buttonLayout.setPadding(new Insets(20,20,20,20));
+		buttonLayout.setPadding(new Insets(20, 20, 20, 20));
 		buttonLayout.setVgap(15);
 		buttonLayout.setHgap(20);
 		int j = 0;
-		//Generates a level button for each level, one by one
-		for(int i = 1; i <= AppModel.getNumLevels(); i++){
-			//Sets the text of button
-			final Button levelBtn = new Button("Level "+i);
+		// Generates a level button for each level, one by one
+		for (int i = 1; i <= AppModel.getNumLevels(); i++) {
+			// Sets the text of button
+			final Button levelBtn = new Button("Level " + i);
 			levelBtn.setAlignment(Pos.CENTER);
-			//Generates event for the current button
-			levelBtn.setOnAction(new EventHandler<ActionEvent>(){
+			// Generates event for the current button
+			levelBtn.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					//Gets the level that the button corresponds to
-					String str = levelBtn.getText().replaceAll("\\D+","");
+					// Gets the level that the button corresponds to
+					String str = levelBtn.getText().replaceAll("\\D+", "");
 					int level = Integer.parseInt(str);
 					AppModel.startQuiz(_gameState, level);
 				}
 			});
 
-			//Disables button if it corresponds to a level that is not unlocked yet
-			if(i > AppModel.getLevelsUnlocked()){
+			// Disables button if it corresponds to a level that is not unlocked
+			// yet
+			if (i > AppModel.getLevelsUnlocked()) {
 				levelBtn.setDisable(true);
 			}
-			//Adds button to the button layout
-			GridPane.setConstraints(levelBtn, ((i -1)%3), j);
+			// Adds button to the button layout
+			GridPane.setConstraints(levelBtn, ((i - 1) % 3), j);
 			buttonLayout.getChildren().add(levelBtn);
-			j = i /3;
+			j = i / 3;
 		}
-		//Centers button layout
+		// Centers button layout
 		buttonLayout.setAlignment(Pos.CENTER);
 
-		//Create button to return user to main menu
-        Button returnBtn = new Button("Return to Main Menu");
-        returnBtn.setOnAction(new EventHandler<ActionEvent>(){
+		// Create button to return user to main menu
+		Button returnBtn = new Button("Return to Main Menu");
+		returnBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				MainMenuScene.setScene();
 			}
-        });
-        
-		//Adds all components to root layout and returns the app.scene containing the layout
-		root.getChildren().addAll(titleLbl, promptLbl,buttonLayout, returnBtn);
+		});
+
+		// Adds all components to root layout and returns the app.scene
+		// containing the layout
+		root.getChildren().addAll(titleLbl, promptLbl, buttonLayout, returnBtn);
 		root.setBackground(AppModel.getBackground());
 
 		root.getStylesheets().add("app/scene/myStyle.css");
-		
-		return(new Scene(root, AppModel.getWidth(),AppModel.getHeight()));
+
+		return (new Scene(root, AppModel.getWidth(), AppModel.getHeight()));
 	}
 
-	//Sets the app.scene of the window as the Level Select Scene
-	public static void setScene(){
+	/**
+	 * Sets the app.scene of the window as the Level Select Scene
+	 */
+	public static void setScene() {
 		Scene lvlSelectScene = build();
 		AppModel.setScene(lvlSelectScene);
 	}
 
-	//Allows this class to know if it is in review mode or not
-	public static void setGameState(GameState gameState){
+	/**
+	 * Sets the gamestate for this scene
+	 */
+	public static void setGameState(GameState gameState) {
 		_gameState = gameState;
 	}
 

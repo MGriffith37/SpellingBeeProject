@@ -2,57 +2,70 @@ package app.model;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import app.model.FileModel;
-import app.model.WordFile;
 
 /**
- * Created by Fraser McIntosh on 20/08/2016.
+ * Created by Fraser McIntosh on 20/08/2016. Responsible for the statistics
+ * information for a corresponding word, in terms of passed/failed
  */
 public class WordStatistic {
-    private SimpleStringProperty word;
-    private SimpleIntegerProperty faulted;
-    private SimpleIntegerProperty failed;
-    private SimpleIntegerProperty mastered;
+	private SimpleStringProperty word;
+	private SimpleIntegerProperty failed;
+	private SimpleIntegerProperty mastered;
 
-    /*
-     * Pass in the word to the constructor and sets the fields
-     */
-    WordStatistic(String word, int level) {
-        this.word = new SimpleStringProperty(word);
-        faulted = new SimpleIntegerProperty(FileModel.countOccurencesInLevel(WordFile.FAULTED, word, level));
-        failed = new SimpleIntegerProperty(FileModel.countOccurencesInLevel(WordFile.FAILED, word, level));
-        mastered = new SimpleIntegerProperty(FileModel.countOccurencesInLevel(WordFile.MASTERED, word, level));
-    }
+	/**
+	 * Pass in the word to the constructor and sets the fields
+	 */
+	WordStatistic(String word, int level) {
+		this.word = new SimpleStringProperty(word);
+		failed = new SimpleIntegerProperty(FileModel.countOccurencesInLevel(WordFile.FAILED, word, level));
+		mastered = new SimpleIntegerProperty(FileModel.countOccurencesInLevel(WordFile.MASTERED, word, level));
+	}
 
-    public String getWord() {
-        return word.get();
-    }
+	/**
+	 * Empty constructor to help with one life/three lives statistics
+	 */
+	WordStatistic() {
+	}
 
-    public void setWord(String word) {
-       this.word.set(word);
-    }
+	/**
+	 * Returns word
+	 */
+	public String getWord() {
+		return word.get();
+	}
 
-    public int getFaulted() {
-        return faulted.get();
-    }
+	/**
+	 * Sets word
+	 */
+	public void setWord(String word) {
+		this.word = new SimpleStringProperty(word);
+	}
 
-    public void setFaulted(int faulted) {
-        this.faulted.set(faulted);
-    }
+	/**
+	 * Returns failed statistic
+	 */
+	public int getFailed() {
+		return failed.get();
+	}
 
-    public int getFailed() {
-        return failed.get();
-    }
+	/**
+	 * Sets failed
+	 */
+	public void setFailed(int failed) {
+		this.failed = new SimpleIntegerProperty(failed);
+	}
 
-    public void setFailed(int failed) {
-        this.failed.set(failed);
-    }
+	/**
+	 * Returns mastered statistic
+	 */
+	public int getMastered() {
+		return mastered.get();
+	}
 
-    public int getMastered() {
-         return mastered.get();
-    }
-
-    public void setMastered(int mastered) {
-       this.mastered.set(mastered);
-    }
+	/**
+	 * Sets masteredc
+	 */
+	public void setMastered(int mastered) {
+		this.mastered = new SimpleIntegerProperty(mastered);
+	}
 }

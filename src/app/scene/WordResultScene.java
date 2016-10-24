@@ -19,101 +19,108 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 
 /**
- * Created by Fraser McIntosh on 14/09/2016.
+ * Created by Fraser McIntosh on 14/09/2016. Responsible for displaying result
+ * for tested quiz word
  */
 public class WordResultScene {
-    private QuizModel _quizModel;
-    @SuppressWarnings("unused")
+	private QuizModel _quizModel;
+	@SuppressWarnings("unused")
 	private boolean _isReview;
-    private WordState _currentWordState;
+	private WordState _currentWordState;
 
-    WordResultScene() {
-        _quizModel = AppModel.getQuizModel();
-        _isReview = _quizModel.getIsReview();
-        _currentWordState = _quizModel.getWordState();
-    }
+	/**
+	 * Constructor to initialise variables for quizModel and word state
+	 */
+	WordResultScene() {
+		_quizModel = AppModel.getQuizModel();
+		_currentWordState = _quizModel.getWordState();
+	}
 
-    // Only get to this app.scene if quiz still going, so don't need to check that (or do we??)
-    private Scene build() {
+	/**
+	 * Builds scene to be displayed
+	 */
+	private Scene build() {
 
-        //Label informing the user if the answered correctly or not
-        Label label1 = new Label();
-        if (_currentWordState.equals(WordState.MASTERED)) {
-            label1.setText("Correct");
-            try {
+		// Label informing the user if the answered correctly or not
+		Label label1 = new Label();
+		if (_currentWordState.equals(WordState.MASTERED)) {
+			label1.setText("Correct");
+			try {
 				Festival.sayWord("Correct");
 			} catch (IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        } else {
-            label1.setText("Incorrect");
-            try {
+		} else {
+			label1.setText("Incorrect");
+			try {
 				Festival.sayWord("Incorrect");
 			} catch (IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        }
+		}
 
-        label1.setId("captiontext");
-        
-        // Button that either says "Next Word", or "Try Again", depending
-        // on whether the previous answer was correct or not
-        Button actionButton = new Button();
-        /*
-         * If quiz is finished take us to the finished quiz app.scene
-         */
-        if (_quizModel.getQuizState() == QuizState.FINISHED) {
+		label1.setId("captiontext");
 
-            actionButton.setText("Finish Quiz");
-            actionButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    // Update number of levels unlocked
-                     new QuizFinishedScene().setScene();
-                }
-            });
+		// Button that says next word or finish quiz
+		Button actionButton = new Button();
+		/*
+		 * If quiz is finished take us to the finished quiz app.scene
+		 */
+		if (_quizModel.getQuizState() == QuizState.FINISHED) {
 
-        } else {
-        	
-                actionButton.setText("Next Word");
+			actionButton.setText("Finish Quiz");
+			actionButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					// Update number of levels unlocked
+					new QuizFinishedScene().setScene();
+				}
+			});
 
-             // Either way, this button will take the user back to the 'Enter Word' Scene
-            actionButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    // Refresh word state if word is finished (if word was incorrect don't referesh
-                    // as need to use it again
-                        _quizModel.nextWord();
-                    
-                    new EnterWordScene().setScene();
-                }
-            });
+		} else {
 
-        }
+			actionButton.setText("Next Word");
 
-        //Layout
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(label1, actionButton);
-        layout.setAlignment(Pos.CENTER);
+			// This button will take the user back to the 'Enter Word' Scene
+			actionButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					// Refresh word state if word is finished (if word was
+					// incorrect don't referesh
+					// as need to use it again
+					_quizModel.nextWord();
 
-        layout.setBackground(AppModel.getBackground());
-        layout.getStylesheets().add("app/scene/myStyle.css");
-        
-        Scene scene = new Scene(layout, AppModel.getWidth(), AppModel.getHeight());
-        actionButton.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.ENTER,  KeyCombination.SHORTCUT_ANY), 
-    			new Runnable(){
-    				@Override public void run(){
-    					actionButton.fire();
-    					}
-    				});
-        return scene;
-    }
+					new EnterWordScene().setScene();
+				}
+			});
 
-    public void setScene() {
-        Scene WordResultScene = build();
-        AppModel.setScene(WordResultScene);
-    }
+		}
+
+		// Top Layout styling and component adding
+		VBox topLayout = new VBox(10);
+		topLayout.getChildren().addAll(label1, actionButton);
+		topLayout.setAlignment(Pos.CENTER);
+		topLayout.setBackground(AppModel.getBackground());
+		topLayout.getStylesheets().add("app/scene/myStyle.css");
+
+		Scene scene = new Scene(topLayout, AppModel.getWidth(), AppModel.getHeight());
+		// Allows the enter button to fire the action button event
+		actionButton.getScene().getAccelerators()
+				.put(new KeyCodeCombination(KeyCode.ENTER, KeyCombination.SHORTCUT_ANY), new Runnable() {
+					@Override
+					public void run() {
+						actionButton.fire();
+					}
+				});
+		return scene;
+	}
+
+	/**
+	 * Displays the scene using app model primary stage
+	 */
+	public void setScene() {
+		Scene WordResultScene = build();
+		AppModel.setScene(WordResultScene);
+	}
 
 }
